@@ -1,35 +1,31 @@
 package com.joaobarp.erp.controller;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-// import javax.inject.Named; tava retornando null mas talvez tenha que voltar no futuro
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 
 import com.joaobarp.erp.model.Empresa;
-import com.joaobarp.erp.model.TipoEmpresa;
+import com.joaobarp.erp.repository.Empresas;
+import javax.inject.Named;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class GestaoEmpresasBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Empresa empresa = new Empresa();
+	@Inject
+	private Empresas empresas;
 	
-	public String ajuda() {
-		return "AjudaGestaoEmpresas?faces-redirect=true"; // requisição explicita
+	private List<Empresa> listaEmpresas;
+	
+	public void todasEmpresas() {
+		listaEmpresas = empresas.todas();
 	}
 	
-	public Empresa getEmpresa() {
-		return empresa;
+	public List<Empresa> getListaEmpresas() {
+		return listaEmpresas;
 	}
 	
-	public TipoEmpresa[] getTiposEmpresa() {
-		return TipoEmpresa.values();
-	}
-	
-	public void salvar() {
-		System.out.printf("Razão social: %s \nNome fantasia: %s \nTipo: %s \nCNPJ: %s \nData de fundação: %s \nFaturamento: %s"
-				, empresa.getRazaoSocial(), empresa.getNomeFantasia(), empresa.getTipo(), empresa.getCnpj(), empresa.getDataFundacao(), empresa.getFaturamento());
-	}
 }
